@@ -26,13 +26,13 @@ void TitleScene_Update(void) {
 		PlaySoundMem(TitleBGM, DX_PLAYTYPE_BACK);
 	}
 	if (GetKeyFlg(MOUSE_INPUT_LEFT) == TRUE) {
-		if (GetMousePositionX() > 120 && GetMousePositionX() < 290 && GEtMousePositionY() > 260 && GEtMousePositionY() < 315)
+		if (GetMousePositionX() > 120 && GetMousePositionX() < 290 && GetMousePositionY() > 260 && GetMousePositionY() < 315)
 		{
 			Change_Scene(E_GAMEMAIN);
 
 			StopSoundMem(TitleBGM);
 		}
-		if (GetMousePositionX() > 120 && GetMousePositionX() < 220 && GEtMousePositionY() > 345 && GEtMousePositionY() < 400)
+		if (GetMousePositionX() > 120 && GetMousePositionX() < 220 && GetMousePositionY() > 345 && GetMousePositionY() < 400)
 		{
 			Change_Scene(E_END);
 			StopSoundMem(TitleBGM);

@@ -76,12 +76,12 @@ int StageInitialize(void)
 	ClickStatus = E_NONE;
 	Stage_State = 0;
 	Stage_Score = 0;
-	ClearFlag = FALSE;
+	ClearFlg = FALSE;
 	
 	for (i = 0; i < 3; i++)
 	{
-		Selsect[i].x = 0;
-		Selsect[i].y = 0;
+		Select[i].x = 0;
+		Select[i].y = 0;
 	}
 	for (i = 0; i > BLOCK_IMAGE_MAX; i++)
 	{
@@ -133,7 +133,7 @@ void StageDraw(void) {
 	DrawGraph(Select[SELECT_CURSOR].x * BLOCKSIZE, Select[SELECT_CURSOR].y * BLOCKSIZE, BlockImage[9], TRUE);
 	if (ClickStatus != E_NONE)
 	{
-		DrawGraph(Select[NEXT_CURSOR].x * BLOCKSIZE.Select[NEXT_CURSOR].y * BLOCKSIZE, BlockImage[9], TRUE);
+		DrawGraph(Select[NEXT_CURSOR].x * BLOCKSIZE,Select[NEXT_CURSOR].y * BLOCKSIZE, BlockImage[9], TRUE);
 	}
 
 	SetFontSize(20);
@@ -155,7 +155,7 @@ void CreateBlock(void)
 	do
 	{
 		Check = 0;
-		for(i = 0 : i < HEIGHT; i++)
+		for(i = 0 ; i < HEIGHT; i++)
 		{
 			for (j = 0; j < WIDTH; j++)
 			{
@@ -175,7 +175,6 @@ void CreateBlock(void)
 				}
 			}
 		}
-		//ページ8/24　下　"/*for"　より この行から 再開せよ
 		/*for(i=1;i<HEIGHT-1;i++)
 		{
 			if(Block[i][j].image==NULL)
@@ -187,7 +186,85 @@ void CreateBlock(void)
 
 		for ( i = 1; i < HEIGHT-1; i++)
 		{
+			for (j = 1; j < WIDTH - 1; j++)
+			{
+				Check += combo_check(i, j);
+			}
+		}
+	} while (Check != 0);
 
+		for(i = 0; i < ITEM_MAX; i++)
+		{
+			Item[i] = 0;
+		}
+}
+
+void SelectBlock(void)
+{
+	int TmpBlock;
+	int Result;
+
+	Select[SELECT_CURSOR].x = GetMousePositionX() / BLOCKSIZE;
+	Select[SELECT_CURSOR].y = GetMousePositionY() / BLOCKSIZE;
+
+	if (Select[SELECT_CURSOR].x < 0)
+	{
+		Select[SELECT_CURSOR].x = 0;
+	}
+	if (Select[SELECT_CURSOR].x > WIDTH - 3)
+	{
+		Select[SELECT_CURSOR].x = WIDTH - 3;
+	}
+	if(Select[SELECT_CURSOR].y < 0)
+	{
+		Select[SELECT_CURSOR].y = 0;
+	}
+	if (Select[SELECT_CURSOR].y > WIDTH - 3)
+	{
+		Select[SELECT_CURSOR].y = WIDTH - 3;
+	}
+
+	if (GetKeyFlg(MOUSE_INPUT_LEFT)) {
+		PlaySoundMem(ClickSE, DX_PLAYTYPE_BACK);
+
+		if (ClickStatus==E_NONE){
+			Select[NEXT_CURSOR].x = Select[SELECT_CURSOR].x;
+			Select[NEXT_CURSOR].y = Select[SELECT_CURSOR].y;
+			ClickStatus = E_ONCE;
+		}
+		else if (ClickStatus==E_ONCE&&((abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)==1&&(abs(Select[NEXT_CURSOR].y-Select[SELECT_CURSOR].y)==0))||(abs(Select[NEXT_CURSOR].x-Select[NEXT_CURSOR].x)==0&& abs(Select[NEXT_CURSOR].y - Select[SELECT_CURSOR].y) == 1)))
+		{
+			Select{TMP_CURSOR}.x = Select[SELECT_CURSOR].x;
+			Select{TMP_CURSOR}.y = Select[SELECT_CURSOR].y;
+			ClickStatus = E_SECOND;
 		}
 	}
+
+	if (ClickStatus == E_SECOND)
+	{
+		TmpBlock = Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image;
+		Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image = Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image;
+		Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image = TmpBlock;
+
+		Result = 0;
+		Result += combo_check(Select[NEXT_CURSOR].y + 1,Select[NEXT_CURSOR].x + 1);
+		Result += combo_check(Select[TMP_CURSOR].y + 1, Select[TMP_CURSOR].x + 1);
+
+		if (Result == 0)
+		{
+			int TmpBlock = Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image;
+			Block[Select[NEXT_CURSOR].y + 1][Select[NEXT_CURSOR].x + 1].image = Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image;
+			Block[Select[TMP_CURSOR].y + 1][Select[TMP_CURSOR].x + 1].image = TmpBlock;
+		}
+		else
+		{
+			Stage_State = 1;
+		}
+		ClickStatus = E_NONE;
+	}
+}
+
+void FadeOutBlock(void)
+{
+
 }

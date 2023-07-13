@@ -42,7 +42,7 @@ int ClickStatus;
 int Stage_State;
 int Stage_Mission;
 int Stage_Score;
-int ClearFlg;
+int ClearFlag;
 
 int BlockImage[BLOCK_IMAGE_MAX];
 int StageImage;
@@ -76,7 +76,7 @@ int StageInitialize(void)
 	ClickStatus = E_NONE;
 	Stage_State = 0;
 	Stage_Score = 0;
-	ClearFlg = FALSE;
+	ClearFlag = FALSE;
 	
 	for (i = 0; i < 3; i++)
 	{
@@ -266,5 +266,228 @@ void SelectBlock(void)
 
 void FadeOutBlock(void)
 {
+	static int BlendMode = 255;
+	int i, j;
 
+	if (CheckSoundMem(FadeOutSE)==0)
+	{
+		PlaySoundMem(FadeOutSE, DX_PLAYTYPE_BACK);
+	}
+	SetDrawMode(DX_BLENDGRAPHTYPE_ALPHA, BlendMode);
+	for (i=1;i<HEIGHT-1;i++)
+	{
+		for (j = 1; j < WIDTH - 1; j++)
+		{
+			if (Block[i][j].image==0)
+			{
+				DrawGraph(Block[i][j].x, Block[i][j].y, BlockImage[Block[i][j].backup], TRUE);
+
+			}
+		}
+	}
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	BlendMode -= 5;
+
+	if (BlendMode==0)
+	{
+		BlendMode = 255;
+		Stage_State = 2;
+		StopSoundMem(FadeOutSE);
+	}
+}
+
+void MoveBlock(void)
+{
+	int i, j, k;
+	PlaySoundMem(MoveBlockSE, DX_PLAYTYPE_BACK);
+
+	for (i=1;i<HEIGHT-1;i++)
+	{
+		for (j = 1; j < WIDTH - 1; j++)
+		{
+			if (Block[i][j].image == 0)
+			{
+				for (k = i; k > 0; k--)
+				{
+					Block[k][j].image = Block[k - 1][j].image;
+					Block[k - 1][j].image = 0;
+				}
+			}
+		}
+	}
+	for (i = 1; i < HEIGHT - 1; i++)
+	{
+		for (j = 1; j < WIDTH - 1; j++)
+		{
+			if (Block[i][j].image == 0)
+			{
+				Block[i][j].image = GetRand(7) + 1;
+			}
+		}
+	}
+	Stage_State = 3;
+}
+
+void CheckBlock(void)
+{
+	int Result = 0;
+	int i, j;
+	for (i = 1; i < WIDTH - 1; i++)
+	{
+		for (j = 1; j < WIDTH - 1; j++)
+		{
+			Result += combo_check(i, j);
+		}
+	}
+	if (Result == 0)
+	{
+		Stage_State = 4;
+	}
+	else
+	{
+		Stage_State = 1;
+	}
+}
+
+void CheckClear(void)
+{
+	int i;
+	for (i = 0; i < ITEM_MAX; i++)
+	{
+		if (Item[i] >= Stage_Mission)
+		{
+			ClearFlag = TRUE;
+			break;
+		}
+	}
+
+	if (ClearFlag != TRUE)
+	{
+		Stage_State = 0;
+	}
+}
+
+int Get_StageState(void)
+{
+	return Stage_State;
+}
+
+int Get_StageClearFlag(void)
+{
+	return ClearFlag;
+}
+
+int Get_StageScore(void)
+{
+	return Stage_Score;
+}
+
+void Set_StageMission(void)
+{
+	Stage_Mission += mission;
+}
+
+int combo_check(int y, int x)
+{
+	int ret = FALSE;
+
+	int CountH = 0;
+	int ColorH = 0;
+	save_block();
+	combo_check_h(y, x, &CountH, &ColorH);
+	if (CountH < 3)
+	{
+		restore_block();
+	}
+	int CountW = 0;
+	int ColorW = 0;
+	save_block();
+	combo_check_w(y, x, &CountW, &ColorW);
+	if (CountW < 3)
+	{
+		restore_block();
+	}
+	if ((CountH >= 3 || CountW >= 3))
+	{
+		if (CountH >= 3)
+		{
+			Item[ColorH - 1] += CountH;
+			Stage_Score += CountH * 10;
+		}
+		if (CountW >= 3)
+		{
+			Item[ColorW - 1] += CountW;
+			Stage_Score += CountW * 10;
+		}
+		ret = TRUE;
+	}
+	return ret;
+}
+
+void combo_check_h(int y, int x, int* cnt, int* col)
+{
+	int Color = 0;
+
+	if (Block[y][x].image == 0)
+	{
+		return;
+	}
+	*col = Block[y][x].image;
+	Color = Block[y][x].image;
+	Block[y][x].image = 0;
+	(*cnt)++;
+
+	if (Block[y + 1][x].image == Color)
+	{
+		combo_check_h(y + 1, x, cnt, col);
+	}
+	if (Block[y - 1][x].image == Color)
+	{
+		combo_check_h(y - 1, x, cnt, col);
+	}
+}
+
+void combo_check_w(int y, int x, int* cnt, int* col)
+{
+	int Color = 0;
+
+	if (Block[y][x].image == 0)
+	{
+		return;
+	}
+
+	*col = Block[y][x].image;
+	Color = Block[y][x].image;
+	Block[y][x].image = 0;
+	(*cnt)++;
+
+	if (Block[y][x + 1].image == Color)
+	{
+		combo_check_w(y, x - 1, cnt, col);
+	}
+}
+
+void save_block(void)
+{
+	int i, j;
+	for (j = 0; i < HEIGHT; i++)
+	{
+		for (j = 0; j < WIDTH; j++)
+		{
+			Block[i][j].backup = Block[i][j].image;
+		}
+	}
+}
+
+void restore_block(void)
+{
+	int i, j;
+	for (i = 0;i < HEIGHT; i++)
+	{
+		for (j = 0; j < WIDTH; j++)
+		{
+			Block[i][j].image = Block[i][j].backup;
+		}
+	}
 }

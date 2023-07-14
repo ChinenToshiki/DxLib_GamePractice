@@ -13,8 +13,8 @@ enum GAME_MODE
 	E_MODE_MAX
 };
 
-int ScreneManager_Initialize(GAME_MODE mode);
-void Scenemanager_Update(void);
+int SceneManager_Initialize(GAME_MODE mode);
+void SceneManager_Update(void);
 void SceneManager_Draw(void);
 
 void Change_Scene(GAME_MODE mode);

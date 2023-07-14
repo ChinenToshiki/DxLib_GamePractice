@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="AppMaincpp.cpp" />
     <ClCompile Include="FreamControl.cpp" />
+    <ClCompile Include="InputControl.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="TitleScene.cpp" />

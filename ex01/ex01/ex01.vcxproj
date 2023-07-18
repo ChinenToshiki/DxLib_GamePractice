@@ -133,6 +133,8 @@
   <ItemGroup>
     <ClCompile Include="AppMaincpp.cpp" />
     <ClCompile Include="FreamControl.cpp" />
+    <ClCompile Include="GameMainScene.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="InputControl.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -140,6 +142,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FreamControl.h" />
+    <ClInclude Include="GameMainScene.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="InputControl.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Stage.h" />

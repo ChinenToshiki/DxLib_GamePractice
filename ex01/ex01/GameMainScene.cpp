@@ -81,5 +81,27 @@ void GameMainScene_Update(void)
 
 void GameMainScene_Draw(void)
 {
+	int PosX = 600;
+	int tmp_level = GameLevel;
+	int tmp_score = Get_StageScore();
+
+	StageDraw();
+	if (Get_StageState() == -1)
+	{
+		FadeOutBlock();
+	}
+	do {
+		DrawRotaGraph(PosX, 80, 0.5f, 0, NumberImage[tmp_level % 10], TRUE);
+		tmp_level /= 10;
+		PosX -= 30;
+
+	} while (tmp_level > 0);
+	PosX = 620;
+	do {
+		DrawRotaGraph(PosX, 160, 0.3f, 0, NumberImage[tmp_score % 10], TRUE);
+		tmp_score /= 10;
+		PosX -= 20;
+	} while (tmp_score > 0);
+	DrawBox(491, 469, 509, 469 - GameTime / 60 * 2, 0x0033ff, TRUE);
 
 }

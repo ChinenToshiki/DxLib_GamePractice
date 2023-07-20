@@ -2,4 +2,4 @@
 
 #define FREAM_RATE (60U)
 void FreamControl_Initialize(void);
-void FramControl_Update(void);
+void FreamControl_Update(void);

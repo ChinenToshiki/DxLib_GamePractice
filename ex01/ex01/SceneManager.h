@@ -1,7 +1,7 @@
 #pragma once
 
 #define D_ERROR (-1)
-#define D_NORMALITY(0)
+#define D_NORMALITY (0)
 
 enum GAME_MODE
 {

@@ -10,8 +10,8 @@ GAME_MODE Next_Mode;
 int SceneManager_Initialize(GAME_MODE mode)
 {
 	int Read_Error;
-	Read_Error = Title_Initialize();
-	if (Read_Error = D_ERROR)
+	Read_Error = TitleScene_Initialize();
+	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}
@@ -27,7 +27,7 @@ int SceneManager_Initialize(GAME_MODE mode)
 		return D_ERROR;
 	}
 	Read_Error = GameOverScene_Initialize();
-	if (Read_Error = D_ERROR)
+	if (Read_Error == D_ERROR)
 	{
 		return D_ERROR;
 	}

@@ -37,7 +37,7 @@ enum
 
 T_Object Block[HEIGHT][WIDTH];
 T_CURSOR Select[3];
-int item[ITEM_MAX];
+int Item[ITEM_MAX];
 int ClickStatus;
 int Stage_State;
 int Stage_Mission;
@@ -65,7 +65,7 @@ int StageInitialize(void)
 	int i;
 
 	LoadDivGraph("images/block.png", BLOCK_IMAGE_MAX, BLOCK_IMAGE_MAX, 1, BLOCKSIZE, BLOCKSIZE, BlockImage);
-	StageImage = LoadGraph("images/stage/png");
+	StageImage = LoadGraph("images/stage.png");
 
 	ClickSE = LoadSoundMem("sounds/click_se.mp3");
 	FadeOutSE = LoadSoundMem("sounds/fadeout_se.mp3");
@@ -126,7 +126,7 @@ void StageDraw(void) {
 		{
 			if (Block[i][j].flg == TRUE && Block[i][j].image != NULL)
 			{
-				DrawGraph(Block[i][j].y, BlockImage[Block[i][j].image], TRUE);
+				DrawGraph(Block[i][j].x,Block[i][j].y, BlockImage[Block[i][j].image], TRUE);
 			}
 		}
 	}
@@ -142,7 +142,7 @@ void StageDraw(void) {
 	for (int i = 0; i < ITEM_MAX; i++)
 	{
 		DrawRotaGraph(540, 245 + i * 30, 0.5f, 0, BlockImage[i + 1], TRUE, 0);
-		DrawFormatString(580, 235 + i * 30, GetColor(255, 255, 255), "%3d", item[i]);
+		DrawFormatString(580, 235 + i * 30, GetColor(255, 255, 255), "%3d", Item[i]);
 
 	}
 }
@@ -159,7 +159,7 @@ void CreateBlock(void)
 		{
 			for (j = 0; j < WIDTH; j++)
 			{
-				if (j == 0 || j == WIDTH - 1 || i == HEIGHT - 1 || i = 0)
+				if (j == 0 || j == WIDTH - 1 || i == HEIGHT - 1 || i == 0)
 				{
 					Block[i][j].flg = FALSE;
 					Block[i][j].image = NULL;
@@ -234,8 +234,8 @@ void SelectBlock(void)
 		}
 		else if (ClickStatus==E_ONCE&&((abs(Select[NEXT_CURSOR].x-Select[SELECT_CURSOR].x)==1&&(abs(Select[NEXT_CURSOR].y-Select[SELECT_CURSOR].y)==0))||(abs(Select[NEXT_CURSOR].x-Select[NEXT_CURSOR].x)==0&& abs(Select[NEXT_CURSOR].y - Select[SELECT_CURSOR].y) == 1)))
 		{
-			Select{TMP_CURSOR}.x = Select[SELECT_CURSOR].x;
-			Select{TMP_CURSOR}.y = Select[SELECT_CURSOR].y;
+			Select[TMP_CURSOR].x = Select[SELECT_CURSOR].x;
+			Select[TMP_CURSOR].y = Select[SELECT_CURSOR].y;
 			ClickStatus = E_SECOND;
 		}
 	}
@@ -273,7 +273,7 @@ void FadeOutBlock(void)
 	{
 		PlaySoundMem(FadeOutSE, DX_PLAYTYPE_BACK);
 	}
-	SetDrawMode(DX_BLENDGRAPHTYPE_ALPHA, BlendMode);
+	SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, BlendMode);
 	for (i=1;i<HEIGHT-1;i++)
 	{
 		for (j = 1; j < WIDTH - 1; j++)
@@ -383,7 +383,7 @@ int Get_StageScore(void)
 	return Stage_Score;
 }
 
-void Set_StageMission(void)
+void Set_StageMission(int mission)
 {
 	Stage_Mission += mission;
 }
@@ -471,7 +471,7 @@ void combo_check_w(int y, int x, int* cnt, int* col)
 void save_block(void)
 {
 	int i, j;
-	for (j = 0; i < HEIGHT; i++)
+	for (i = 0; i < HEIGHT; i++)
 	{
 		for (j = 0; j < WIDTH; j++)
 		{

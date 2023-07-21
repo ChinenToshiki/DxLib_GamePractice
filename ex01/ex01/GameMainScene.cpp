@@ -86,7 +86,8 @@ void GameMainScene_Draw(void)
 	int tmp_score = Get_StageScore();
 
 	StageDraw();
-	if (Get_StageState() == -1)
+
+	if (Get_StageState() == 1)
 	{
 		FadeOutBlock();
 	}
@@ -94,7 +95,6 @@ void GameMainScene_Draw(void)
 		DrawRotaGraph(PosX, 80, 0.5f, 0, NumberImage[tmp_level % 10], TRUE);
 		tmp_level /= 10;
 		PosX -= 30;
-
 	} while (tmp_level > 0);
 	PosX = 620;
 	do {

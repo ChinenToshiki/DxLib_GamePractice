@@ -333,7 +333,7 @@ void CheckBlock(void)
 {
 	int Result = 0;
 	int i, j;
-	for (i = 1; i < WIDTH - 1; i++)
+	for (i = 1; i < HEIGHT - 1; i++)
 	{
 		for (j = 1; j < WIDTH - 1; j++)
 		{
@@ -464,8 +464,13 @@ void combo_check_w(int y, int x, int* cnt, int* col)
 
 	if (Block[y][x + 1].image == Color)
 	{
+		combo_check_w(y, x + 1, cnt, col);
+	}
+	if (Block[y][x - 1].image == Color)
+	{
 		combo_check_w(y, x - 1, cnt, col);
 	}
+
 }
 
 void save_block(void)

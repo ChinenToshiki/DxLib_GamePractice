@@ -1,6 +1,7 @@
 #include"Stage.h"
 #include"DxLib.h"
 #include"InputControl.h"
+#include"TitleScene.h"
 
 #define HEIGHT (12)
 #define WIDTH (12)

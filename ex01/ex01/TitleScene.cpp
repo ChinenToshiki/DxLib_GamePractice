@@ -5,6 +5,7 @@
 
 int TitleImage;
 int TitleBGM;
+int GameBGM;
 int TitleNumber[10];
 int disp_num;
 ///////////
@@ -13,6 +14,7 @@ int TitleScene_Initialize(void) {
 	disp_num = 0;
 	TitleImage = LoadGraph("images/title.png");
 	TitleBGM = LoadSoundMem("sounds/title_bgm.mp3");
+	GameBGM = LoadSoundMem("sounds/男衆「始めいッ！」.mp3");
 	TitleNumber[0] = LoadGraph("images/0.jpg");
 	TitleNumber[1] = LoadGraph("images/1.jpg");
 	TitleNumber[2] = LoadGraph("images/2.jpg");
@@ -43,6 +45,8 @@ void TitleScene_Update(void) {
 			Change_Scene(E_GAMEMAIN);
 
 			StopSoundMem(TitleBGM);
+
+			PlaySoundMem(GameBGM,DX_PLAYTYPE_NORMAL);
 		}
 		if (GetMousePositionX() > 120 && GetMousePositionX() < 220 && GetMousePositionY() > 345 && GetMousePositionY() < 400)
 		{
@@ -61,7 +65,7 @@ void TitleScene_Update(void) {
 		}
 		else if (GetMousePositionX() > 300 && GetMousePositionX() < 390 && GetMousePositionY() > 200 && GetMousePositionY() < 250)
 		{
-			if (disp_num > 0);
+			if (disp_num > 0)
 			disp_num--;
 		}
 		if(disp_num < 0) {
@@ -74,7 +78,7 @@ void TitleScene_Draw(void) {
 	DrawGraph(300, 70, TitleNumber[disp_num], FALSE);
 	//DrawBox(300, 70, 390, 200, GetColor(0, 0, 0), 0);
 	DrawBox(300, 20, 390, 250, GetColor(0, 0, 0), 0);
-	DrawBox(300, 200, 390, 250, GetColor(0, 0, 0), 1);
+	DrawBox(300, 200, 390, 250, GetColor(0, 0, 0), 0);
 	
 
 		//DrawBox(300, 85, 350,180, GetColor(0, 0, 0), 1);

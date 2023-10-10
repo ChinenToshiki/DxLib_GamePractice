@@ -7,6 +7,6 @@ void InputContorl_Update(void);
 
 int GetButton(int button);
 int GetButtonDown(int button);
-int GetButton(int button);
+int GetButtonUp(int button);
 
 int GetExitButton(void);

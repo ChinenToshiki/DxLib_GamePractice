@@ -53,3 +53,43 @@ void InputControl_Update(void)
 	}
 }
 
+int GetButton(int button)
+{
+	int ret = FALSE;
+	if (button_state[button] == E_CLICK || button_state[button] == E_PRESS)
+	{
+		ret = TRUE;
+	}
+	return ret;
+}
+
+int GetButtonDown(int button)
+{
+	int ret = FALSE;
+	if (button_state[button] == E_CLICK)
+	{
+		ret = TRUE;
+	}
+	return ret;
+}
+
+int GetButtonUp(int button)
+{
+	int ret = FALSE;
+
+	if (button_state[button] == E_RELEASED)
+	{
+		ret = TRUE;
+	}
+}
+
+int GetExitButton(void)
+{
+	int ret = FALSE;
+
+	if ((GetButtonDown(XINPUT_BUTTON_BACK) == TRUE) || (CheckHitKey(KEY_INPUT_ESCAPE) == TRUE))
+	{
+		ret = TRUE;
+	}
+	return ret;
+}

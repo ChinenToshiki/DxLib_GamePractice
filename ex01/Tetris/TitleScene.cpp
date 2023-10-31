@@ -28,7 +28,8 @@ int TitleScene_Initialize(void)
 
 	for (int i = 0; i < E_SOUND_MAX; i++)
 	{
-		if (sounds[i] == -1) {
+		if (sounds[i] == -1) 
+		{
 			ret = -1;
 			break;
 		}
@@ -40,6 +41,12 @@ void TitleScene_Update(void)
 {
 	if (CheckSoundMem(sounds[E_TITLE_BGM]) != TRUE)
 	{
+		PlaySoundMem(sounds[E_TITLE_SE_SELECT], DX_PLAYTYPE_BACK, FALSE);
+	}
+
+	if (GetButtonDown(XINPUT_BUTTON_B) == TRUE)
+	{
+		StopSoundMem(sounds[E_TITLE_BGM]);
 		PlaySoundMem(sounds[E_TITLE_SE_SELECT], DX_PLAYTYPE_BACK, FALSE);
 		switch (cursor_number) {
 		case 0:
@@ -79,7 +86,7 @@ void TitleScene_Update(void)
 	}
 }
 
-void TItleScene_Draw(void)
+void TitleScene_Draw(void)
 {
 	SetFontSize(50);
 	DrawString(100, 100, "ƒeƒgƒŠƒX", GetColor(255, 255, 255));

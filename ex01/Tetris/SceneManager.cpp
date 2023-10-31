@@ -41,7 +41,7 @@ void SceneManager_Initialize(GAME_MODE mode)
 	next_mode = game_mode;
 }
 
-void SceneManager_update(void)
+void SceneManager_Update(void)
 {
 	if (game_mode != next_mode)
 	{
@@ -50,7 +50,7 @@ void SceneManager_update(void)
 	switch (game_mode)
 	{
 	case E_TITLE:
-		TitleScene_Update();
+		TitleScene_Draw();
 		break;
 	case E_GAMEMAIN:
 		GameMainScene_Update();

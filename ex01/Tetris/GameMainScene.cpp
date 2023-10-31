@@ -29,7 +29,7 @@ int GameMainScene_Initialize(void)
 	return ret;
 }
 
-void GameMainScene(void)
+void GameMainScene_Update(void)
 {
 	PlaySoundMem(BackGround_sound, DX_PLAYTYPE_LOOP, FALSE);
 

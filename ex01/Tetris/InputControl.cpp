@@ -50,6 +50,24 @@ void InputControl_Update(void)
 				break;
 			}
 		}
+		else
+		{
+			switch (button_state[i])
+			{
+			case E_NONE:
+			case E_RELEASED:
+				button_state[i] = E_NONE;
+				break;
+			case E_CLICK:
+			case E_PRESS:
+				button_state[i] = E_RELEASED;
+				break;
+			default:
+				button_state[i] = E_NONE;
+				break;
+			}
+
+		}
 	}
 }
 
@@ -81,6 +99,7 @@ int GetButtonUp(int button)
 	{
 		ret = TRUE;
 	}
+	return ret;
 }
 
 int GetExitButton(void)

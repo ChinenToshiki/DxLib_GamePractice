@@ -31,7 +31,7 @@ void file_read(void);
 void file_write(void);
 void ranking_sort(void);
 void ranking_input_name(void);
-void ranking_input_draw(void);
+void ranking_input_name_draw(void);
 
 int RankingScene_Initialize(void)
 {
@@ -77,7 +77,7 @@ void RankingScene_Draw(void)
 	switch (DispMode)
 	{
 	case RANKING_INPUT_MODE:
-		ranking_input_draw();
+		ranking_input_name_draw();
 		break;
 	case RANKING_DISP_MODE:
 	default:
@@ -146,7 +146,7 @@ void file_write(void)
 	}
 }
 
-void rankking_sort(void)
+void ranking_sort(void)
 {
 	int i, j;
 	T_RANKING tmp;

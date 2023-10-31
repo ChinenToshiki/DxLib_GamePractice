@@ -69,7 +69,8 @@ void TitleScene_Update(void)
 		{
 			cursor_number = 0;
 		}
-		else {
+		else 
+		{
 			cursor_number--;
 		}
 	}

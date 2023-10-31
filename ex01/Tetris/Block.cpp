@@ -3,7 +3,7 @@
 #include"InputControl.h"
 
 #define FIELD_HEIGHT (21)
-#define FIELD_WIDTH (21)
+#define FIELD_WIDTH (12)
 #define BLOCK_TROUT_SIZE (4)
 #define BLOCK_SIZE (36)
 #define BLOCK_TYPE_MAX (7)
@@ -186,12 +186,19 @@ void Block_Draw(void)
 			}
 		}
 	}
-	for (i = 0; i < BLOCK_TROUT_SIZE; j++)
+	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
 		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 		{
 			DrawGraph(BLOCK_SIZE * j + BLOCK_NEXT_POS_X, BLOCK_SIZE * i + BLOCK_NEXT_POS_Y, BlockImage[Next[i][j]], TRUE);
 			DrawGraph(BLOCK_SIZE * j + BLOCK_STOCK_POS_X, BLOCK_SIZE * i + BLOCK_STOCK_POS_Y, BlockImage[Stock[i][j]], TRUE);
+		}
+	}
+	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
+	{
+		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
+		{
+			DrawGraph((DropBlock_X + j) * BLOCK_SIZE, (DropBlock_Y + i) * BLOCK_SIZE, BlockImage[DropBlock[i][j]], TRUE);
 		}
 	}
 }
@@ -270,7 +277,7 @@ void move_block(void)
 
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
-		if (check_overlap(DropBlock_X, DropBlock_Y+1) == TRUE)
+		while (check_overlap(DropBlock_X, DropBlock_Y+1) == TRUE)
 		{
 			DropBlock_Y++;
 		}
@@ -278,7 +285,7 @@ void move_block(void)
 
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
-		if (check_overlap(DropBlock_X - 1, DropBlock_Y) == TRUE)
+		if (check_overlap(DropBlock_X, DropBlock_Y+1) == TRUE)
 		{
 			DropBlock_Y++;
 		}
@@ -295,7 +302,7 @@ void change_block(void)
 	{
 		for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 		{
-			for (j = 0; i < BLOCK_TROUT_SIZE; j++)
+			for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 			{
 				temp[i][j] = DropBlock[i][j];
 				DropBlock[i][j] = Stock[i][j];
@@ -328,7 +335,7 @@ void turn_block(int clockwise)
 		{
 			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 			{
-				for (j = 0; i < BLOCK_TROUT_SIZE; j++)
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 				{
 					temp[j][3 - i] = DropBlock[i][j];
 				}
@@ -339,7 +346,7 @@ void turn_block(int clockwise)
 		{
 			for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 			{
-				for (j = 0; i < BLOCK_TROUT_SIZE; j++)
+				for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 				{
 					temp[3-j][i] = DropBlock[i][j];
 				}
@@ -347,9 +354,10 @@ void turn_block(int clockwise)
 		}
 		for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 		{
-			for (j = 0; i < BLOCK_TROUT_SIZE; j++)
+			for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 			{
-				temp[i][j] = DropBlock[i][j];
+				DropBlock[i][j] = temp[i][j];
+
 			}
 		}
 		if (check_overlap(DropBlock_X, DropBlock_Y) && DropBlock_X >= E_BLOCK_WALL)
@@ -369,7 +377,7 @@ int check_overlap(int x, int y)
 	int i, j;
 	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
-		for (j = 0; i < BLOCK_TROUT_SIZE; j++)
+		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 		{
 			if (DropBlock[i][j] != E_BLOCK_EMPTY)
 			{
@@ -389,7 +397,7 @@ void lock_block(int x, int y)
 
 	for (i = 0; i < BLOCK_TROUT_SIZE; i++)
 	{
-		for (j = 0; i < BLOCK_TROUT_SIZE; j++)
+		for (j = 0; j < BLOCK_TROUT_SIZE; j++)
 		{
 			if (DropBlock[i][j] != E_BLOCK_EMPTY)
 			{

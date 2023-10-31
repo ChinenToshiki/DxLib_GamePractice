@@ -139,7 +139,7 @@ void file_write(void)
 	else
 	{
 		for (i = 0; i < RANKING_MAX; i++) {
-			fprintf(fp, "%d2,%[^,],%10d\n", Ranking_Data[i].rank, Ranking_Data[i].name, Ranking_Data[i].score);
+			fprintf(fp, "%2d,%[^,],%10d\n", Ranking_Data[i].rank, Ranking_Data[i].name, Ranking_Data[i].score);
 		}
 
 		fclose(fp);
@@ -221,7 +221,7 @@ void ranking_input_name(void)
 			if (Cursor.x < 10)
 			{
 				c = '0' + Cursor.x;
-				New_Score.name[name_num++] = 0;
+				New_Score.name[name_num++] = c;
 			}
 			else if (Cursor.x == 10)
 			{

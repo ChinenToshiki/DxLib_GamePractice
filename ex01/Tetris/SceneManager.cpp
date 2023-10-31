@@ -50,7 +50,7 @@ void SceneManager_Update(void)
 	switch (game_mode)
 	{
 	case E_TITLE:
-		TitleScene_Draw();
+		TitleScene_Update();
 		break;
 	case E_GAMEMAIN:
 		GameMainScene_Update();

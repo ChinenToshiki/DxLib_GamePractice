@@ -277,7 +277,7 @@ void move_block(void)
 
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_UP))
 	{
-		while (check_overlap(DropBlock_X, DropBlock_Y+1) == TRUE)
+		if (check_overlap(DropBlock_X, DropBlock_Y+1) == TRUE)
 		{
 			DropBlock_Y++;
 		}
@@ -285,7 +285,7 @@ void move_block(void)
 
 	if (GetButtonDown(XINPUT_BUTTON_DPAD_DOWN))
 	{
-		if (check_overlap(DropBlock_X, DropBlock_Y+1) == TRUE)
+		while (check_overlap(DropBlock_X, DropBlock_Y+1) == TRUE)
 		{
 			DropBlock_Y++;
 		}

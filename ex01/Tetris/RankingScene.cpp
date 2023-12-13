@@ -36,6 +36,7 @@ void ranking_input_name_draw(void);
 int RankingScene_Initialize(void)
 {
 	int ret = 0;
+	int i;
 
 	file_read();
 
@@ -45,6 +46,10 @@ int RankingScene_Initialize(void)
 		Cursor.x = 0;
 		Cursor.y = 0;
 		name_num = 0;
+		for (i = 0; i < RANKING_NAME_LEN; i++)
+		{
+			New_Score.name[i] = NULL;
+		}
 		break;
 	case RANKING_DISP_MODE:
 	default:

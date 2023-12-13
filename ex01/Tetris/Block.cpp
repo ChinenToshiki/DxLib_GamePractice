@@ -13,7 +13,6 @@
 #define BLOCK_STOCK_POS_Y (350)
 #define DROP_BLOCK_INIT_X (4)
 #define DROP_BLOCK_INIT_Y (-1)
-#define DROP_SPEED (60)
 #define TURN_CROCKWICE (0)
 #define TURN_ANTICROCKWICE (1)
 
@@ -85,6 +84,8 @@ BLOCK_STATE DropBlock[BLOCK_TROUT_SIZE][BLOCK_TROUT_SIZE];
 int DropBlock_X;
 int DropBlock_Y;
 
+int DROP_SPEED = 60;
+int Old_DelteLine = 0;
 int WaitTime;
 int Stock_Flg;
 int Generate_Flg;
@@ -424,7 +425,8 @@ void check_line(void)
 		if (j >= FIELD_WIDTH)
 		{
 			DeleteLine++;
-
+			DROP_SPEED -= (DeleteLine-Old_DelteLine);
+			Old_DelteLine = DeleteLine;
 			for (k = i; k > 0; k--)
 			{
 				for (j = 1; j < FIELD_WIDTH; j++)

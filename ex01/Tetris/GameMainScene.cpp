@@ -7,6 +7,7 @@ int BackGround_image;
 int BackGround_sound;
 int GameOver_sound;
 int Score;
+int Level;
 
 int GameMainScene_Initialize(void)
 {
@@ -35,6 +36,7 @@ void GameMainScene_Update(void)
 
 	Block_Update();
 	Score = Get_Line() * 50;
+	Level = Get_Line();
 
 	if (Get_GenerateFlg() != TRUE)
 	{
@@ -50,6 +52,8 @@ void GameMainScene_Draw(void)
 	Block_Draw();
 	SetFontSize(100);
 	DrawFormatString(800, 100, GetColor(255, 255, 255), "%d", Score);
+	DrawFormatString(800, 210, GetColor(255, 255, 255), "%d", Level);
+
 	SetFontSize(20);
 }
 

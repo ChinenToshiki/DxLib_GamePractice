@@ -29,9 +29,10 @@ void SceneManager_Initialize(GAME_MODE mode)
 		else
 		{
 			Set_RankingMode(RANKING_DISP_MODE);
-			read_error = RankingScene_Initialize();
-			break;
 		}
+		read_error = RankingScene_Initialize();
+		break;
+
 	case E_END:
 	default:
 		EndScene_Initialize();
